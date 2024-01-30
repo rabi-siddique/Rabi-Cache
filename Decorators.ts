@@ -26,6 +26,8 @@ export function logMessage(
         break;
       }
     }
+
+    return result;
   };
 
   return descriptor;
