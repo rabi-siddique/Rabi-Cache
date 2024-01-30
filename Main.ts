@@ -15,6 +15,7 @@ function getCommandLineInput() {
       cli.close();
     } else {
       executor.executeCommand(userInput);
+      getCommandLineInput();
     }
   });
 }
