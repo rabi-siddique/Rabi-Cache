@@ -1,6 +1,14 @@
 export class Cache {
   private cache = {};
-  constructor() {}
+  private static instance: Cache;
+  private constructor() {}
+
+  public static getInstance(): Cache {
+    if (!this.instance) {
+      this.instance = new Cache();
+    }
+    return this.instance;
+  }
 
   @validateKey
   public insert(key: string, value: unknown): void | never {
