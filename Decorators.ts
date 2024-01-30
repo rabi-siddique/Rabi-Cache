@@ -1,3 +1,10 @@
+import {
+  CACHE_KEYWORD,
+  ErrorMessages,
+  Operations,
+  SuccessMessages,
+} from './enums';
+
 export function logMessage(
   target: unknown,
   key: string,
@@ -9,20 +16,20 @@ export function logMessage(
     const result = originalMethod.apply(this, args);
 
     switch (key) {
-      case 'insert': {
-        console.log('Insertion Successful in the cache');
+      case Operations.INSERT: {
+        console.log(SuccessMessages.Insertion);
         break;
       }
-      case 'get': {
-        console.log('Key Retrieval Successful', result);
+      case Operations.GET: {
+        console.log(SuccessMessages.Get, result);
         break;
       }
-      case 'delete': {
-        console.log('Key Deletion Successful');
+      case Operations.DELETE: {
+        console.log(SuccessMessages.Deletion);
         break;
       }
-      case 'update': {
-        console.log('Key Update Successful');
+      case Operations.UPDATE: {
+        console.log(SuccessMessages.Update);
         break;
       }
     }
@@ -44,12 +51,12 @@ export function validateKey(
     const [keyArgument, ...restArgs] = args;
 
     if (keyArgument === '') {
-      throw new Error('Invalid key. Key cannot be an empty string.');
+      throw new Error(ErrorMessages.KeyEmpty);
     }
 
     if (['get', 'delete', 'update'].includes(key)) {
       if (!this.cache.hasOwnProperty(keyArgument)) {
-        throw new Error('Invalid key. Key is not present in the cache');
+        throw new Error(ErrorMessages.KeyNotPresent);
       }
     }
 
@@ -61,6 +68,49 @@ export function validateKey(
       )}. Result: ${result}`
     );
     return result;
+  };
+
+  return descriptor;
+}
+
+export function validateCommand(
+  target: unknown,
+  key: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+
+  descriptor.value = function (args: string) {
+    let command = args;
+
+    command.trim();
+    const commandWords = command.split(' ').filter(Boolean);
+
+    if (commandWords[0] !== CACHE_KEYWORD) {
+      throw new Error(ErrorMessages.NoRabi);
+    }
+
+    if (commandWords.length > 4) {
+      throw new Error(ErrorMessages.InvalidCommand);
+    }
+
+    if (
+      commandWords.length === 4 &&
+      commandWords[0] === CACHE_KEYWORD &&
+      (commandWords[1] === Operations.INSERT ||
+        commandWords[1] === Operations.UPDATE)
+    ) {
+      originalMethod.apply(this, [commandWords.join(' ')]);
+    } else if (
+      commandWords.length === 3 &&
+      commandWords[0] === CACHE_KEYWORD &&
+      (commandWords[1] === Operations.GET ||
+        commandWords[1] === Operations.DELETE)
+    ) {
+      originalMethod.apply(this, [commandWords.join(' ')]);
+    } else {
+      throw new Error(ErrorMessages.InvalidCommand);
+    }
   };
 
   return descriptor;

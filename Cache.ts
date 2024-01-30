@@ -1,6 +1,13 @@
 import { validateKey, logMessage } from './Decorators';
 
-export class Cache {
+export interface ICache {
+  insert(key: string, value: unknown): void;
+  get(key: string): unknown;
+  delete(key: string): void;
+  update(key: string, newValue: unknown): void;
+}
+
+export class Cache implements ICache {
   private cache = {};
   private static instance: Cache;
   private constructor() {}
