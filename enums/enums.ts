@@ -3,7 +3,7 @@ export const enum ErrorMessages {
   KeyEmpty = 'Invalid key. Key cannot be an empty string or null/undefined',
   NoRabi = `Invalid Command. Make sure to start your command with 'Rabi'`,
   InvalidCommand = 'Invalid Command. Please type a command supported by our system',
-  InvalidOperation = 'Invalid Operation',
+  InvalidOperation = 'Invalid Operation. Allowed operations are insert, get, delete and update.',
 }
 
 export const enum SuccessMessages {

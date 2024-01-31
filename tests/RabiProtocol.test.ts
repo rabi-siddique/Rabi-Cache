@@ -26,6 +26,9 @@ describe('Protocol Validation', () => {
     expect(() => validateCommandFn('rabi insert "key www" value')).toThrow(
       ErrorMessages.NoRabi
     );
+    expect(() => validateCommandFn('Rabi deebee key value')).toThrow(
+      ErrorMessages.InvalidOperation
+    );
   });
 
   it('should throw error when the key contains an empty string or null/undefined', () => {

@@ -6,6 +6,7 @@ import {
   SuccessMessages,
 } from '../enums/enums';
 import { logWithTimestamp, successMessageLogger } from '../utils/Logger';
+import { isValidOperation } from '../utils/Validators';
 
 export function logMessage(
   target: unknown,
@@ -52,7 +53,7 @@ export function validateKey(cache: RabiCache) {
 
     descriptor.value = function (...args: unknown[]) {
       const keyArgument = args[0] as string;
-      const invalidKeys = ['', '""', 'null', 'undefined'];
+      const invalidKeys = ['', "''", '""', 'null', 'undefined'];
 
       if (invalidKeys.includes(keyArgument)) {
         throw new Error(ErrorMessages.KeyEmpty);
@@ -98,6 +99,9 @@ export function validateCommand(
       throw new Error(ErrorMessages.InvalidCommand);
     }
 
+    if (!isValidOperation(commandWords[1])) {
+      throw new Error(ErrorMessages.InvalidOperation);
+    }
     if (
       commandWords.length === 4 &&
       commandWords[0] === CACHE_KEYWORD &&
