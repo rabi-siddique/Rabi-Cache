@@ -4,6 +4,10 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
-  }
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "target": "ES2017"
+  },
+  "exclude": ["node_modules", "dist"]
 }
