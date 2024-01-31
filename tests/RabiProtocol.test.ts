@@ -2,6 +2,18 @@ import { validateCommand, validateKey } from '../decorators/Decorators';
 import { ErrorMessages } from '../enums/enums';
 import { RabiCache } from '../src/Cache';
 describe('Protocol Validation', () => {
+  it('should not throw error when the insert command is complete and valid', () => {
+    const target = {};
+    const key = 'testKey';
+    const descriptor = {
+      value: jest.fn(),
+    };
+
+    const validateCommandFn = validateCommand(target, key, descriptor).value;
+    expect(() => validateCommandFn('Rabi insert key value')).not.toThrow(
+      ErrorMessages.InvalidCommand
+    );
+  });
   it('should throw error when the insert command is incomplete or invalid', () => {
     const target = {};
     const key = 'testKey';
