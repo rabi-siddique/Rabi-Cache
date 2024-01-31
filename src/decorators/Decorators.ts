@@ -1,4 +1,4 @@
-import { RabiCache } from '../src/Cache';
+import { RabiCache } from '../Cache';
 import {
   CACHE_KEYWORD,
   ErrorMessages,

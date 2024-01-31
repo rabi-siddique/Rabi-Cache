@@ -1,6 +1,6 @@
 import { createInterface } from 'readline';
-import { CommandExecutor } from './src/CommandExecutor';
-import { Cache } from './src/Cache';
+import { CommandExecutor } from './CommandExecutor';
+import { Cache } from './Cache';
 import {
   cliStartLogger,
   errorMessageLogger,
@@ -35,8 +35,3 @@ function getCommandLineInput() {
 }
 
 getCommandLineInput();
-
-// Accepting connections
-// Timer to expire keys
-// Cache Eviction Policies
-// Allow key values to be in double quotes as well

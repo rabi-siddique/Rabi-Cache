@@ -1,6 +1,6 @@
 import { validateCommand, validateKey } from '../decorators/Decorators';
 import { ErrorMessages } from '../enums/enums';
-import { RabiCache } from '../src/Cache';
+import { RabiCache } from '../Cache';
 describe('Protocol Validation', () => {
   it('should not throw error when the insert command is complete and valid', () => {
     const target = {};

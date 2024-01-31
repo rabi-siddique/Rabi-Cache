@@ -21,12 +21,3 @@ export const enum Operations {
 }
 
 export const CACHE_KEYWORD = 'Rabi';
-
-/* Cache Commands
-
-Rabi update key value
-Rabi insert key value
-Rabi delete key
-Rabi get key
-
-*/
