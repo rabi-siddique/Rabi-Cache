@@ -20,9 +20,11 @@ function getCommandLineInput() {
         executor.executeCommand(userInput);
         getCommandLineInput();
       }
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
       getCommandLineInput();
-      console.error(error.message);
     }
   });
 }

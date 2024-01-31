@@ -7,8 +7,12 @@ export interface ICache {
   update(key: string, newValue: unknown): void;
 }
 
+export interface RabiCache {
+  [key: string]: any;
+}
+
 export class Cache implements ICache {
-  private cache = {};
+  private static cache: RabiCache = {};
   private static instance: Cache;
   private constructor() {}
 
@@ -19,27 +23,27 @@ export class Cache implements ICache {
     return this.instance;
   }
 
-  @validateKey
+  @validateKey(Cache.cache)
   @logMessage
   public insert(key: string, value: unknown): void {
-    this.cache[key] = value;
+    Cache.cache[key] = value;
   }
 
-  @validateKey
+  @validateKey(Cache.cache)
   @logMessage
   public get(key: string): unknown {
-    return this.cache[key];
+    return Cache.cache[key];
   }
 
-  @validateKey
+  @validateKey(Cache.cache)
   @logMessage
   public delete(key: string): void {
-    delete this.cache[key];
+    delete Cache.cache[key];
   }
 
-  @validateKey
+  @validateKey(Cache.cache)
   @logMessage
   public update(key: string, newValue: unknown): void {
-    this.cache[key] = newValue;
+    Cache.cache[key] = newValue;
   }
 }

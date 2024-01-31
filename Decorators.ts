@@ -1,3 +1,4 @@
+import { RabiCache } from './Cache';
 import {
   CACHE_KEYWORD,
   ErrorMessages,
@@ -40,37 +41,39 @@ export function logMessage(
   return descriptor;
 }
 
-export function validateKey(
-  target: unknown,
-  key: string,
-  descriptor: PropertyDescriptor
-) {
-  const originalMethod = descriptor.value;
+export function validateKey(cache: RabiCache) {
+  return function (
+    target: unknown,
+    key: string,
+    descriptor: PropertyDescriptor
+  ) {
+    const originalMethod = descriptor.value;
 
-  descriptor.value = function (...args: unknown[]) {
-    const [keyArgument, ...restArgs] = args;
+    descriptor.value = function (...args: unknown[]) {
+      const keyArgument = args[0] as string;
 
-    if (keyArgument === '') {
-      throw new Error(ErrorMessages.KeyEmpty);
-    }
-
-    if (['get', 'delete', 'update'].includes(key)) {
-      if (!this.cache.hasOwnProperty(keyArgument)) {
-        throw new Error(ErrorMessages.KeyNotPresent);
+      if (keyArgument === '') {
+        throw new Error(ErrorMessages.KeyEmpty);
       }
-    }
 
-    const result = originalMethod.apply(this, args);
+      if (['get', 'delete', 'update'].includes(key)) {
+        if (!cache.hasOwnProperty(keyArgument)) {
+          throw new Error(ErrorMessages.KeyNotPresent);
+        }
+      }
 
-    console.log(
-      `Method ${key} called with arguments: ${JSON.stringify(
-        args
-      )}. Result: ${result}`
-    );
-    return result;
+      const result = originalMethod.apply(this, args);
+
+      console.log(
+        `Method ${key} called with arguments: ${JSON.stringify(
+          args
+        )}. Result: ${result}`
+      );
+      return result;
+    };
+
+    return descriptor;
   };
-
-  return descriptor;
 }
 
 export function validateCommand(
