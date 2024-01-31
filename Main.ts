@@ -1,6 +1,6 @@
 import { createInterface } from 'readline';
-import { CommandExecutor } from './CommandExecutor';
-import { Cache } from './Cache';
+import { CommandExecutor } from './src/CommandExecutor';
+import { Cache } from './src/Cache';
 
 const executor = new CommandExecutor(Cache.getInstance());
 
@@ -32,5 +32,5 @@ function getCommandLineInput() {
 getCommandLineInput();
 
 // Accepting connections
-// Running prev command with arrow keys
 // Timer to expire keys
+// Cache Eviction Policies

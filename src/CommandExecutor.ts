@@ -1,6 +1,6 @@
 import { ICache } from './Cache';
-import { validateCommand } from './Decorators';
-import { ErrorMessages, Operations } from './enums';
+import { validateCommand } from '../decorators/Decorators';
+import { ErrorMessages, Operations } from '../enums/enums';
 
 export class CommandExecutor {
   private cache: ICache;

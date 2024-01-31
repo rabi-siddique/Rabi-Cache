@@ -1,10 +1,10 @@
-import { RabiCache } from './Cache';
+import { RabiCache } from '../src/Cache';
 import {
   CACHE_KEYWORD,
   ErrorMessages,
   Operations,
   SuccessMessages,
-} from './enums';
+} from '../enums/enums';
 
 export function logMessage(
   target: unknown,
