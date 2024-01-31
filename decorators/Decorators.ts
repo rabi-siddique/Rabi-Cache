@@ -5,6 +5,7 @@ import {
   Operations,
   SuccessMessages,
 } from '../enums/enums';
+import { logWithTimestamp, successMessageLogger } from '../utils/Logger';
 
 export function logMessage(
   target: unknown,
@@ -18,19 +19,19 @@ export function logMessage(
 
     switch (key) {
       case Operations.INSERT: {
-        console.log(SuccessMessages.Insertion);
+        successMessageLogger(SuccessMessages.Insertion);
         break;
       }
       case Operations.GET: {
-        console.log(SuccessMessages.Get, result);
+        successMessageLogger(SuccessMessages.Get);
         break;
       }
       case Operations.DELETE: {
-        console.log(SuccessMessages.Deletion);
+        successMessageLogger(SuccessMessages.Deletion);
         break;
       }
       case Operations.UPDATE: {
-        console.log(SuccessMessages.Update);
+        successMessageLogger(SuccessMessages.Update);
         break;
       }
     }
@@ -64,11 +65,10 @@ export function validateKey(cache: RabiCache) {
 
       const result = originalMethod.apply(this, args);
 
-      console.log(
-        `Method ${key} called with arguments: ${JSON.stringify(
-          args
-        )}. Result: ${result}`
+      logWithTimestamp(
+        `Method ${key} called with arguments: ${JSON.stringify(args)}`
       );
+
       return result;
     };
 
