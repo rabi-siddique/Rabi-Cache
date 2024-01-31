@@ -52,8 +52,9 @@ export function validateKey(cache: RabiCache) {
 
     descriptor.value = function (...args: unknown[]) {
       const keyArgument = args[0] as string;
+      const invalidKeys = ['', '""', 'null', 'undefined'];
 
-      if (keyArgument === '') {
+      if (invalidKeys.includes(keyArgument)) {
         throw new Error(ErrorMessages.KeyEmpty);
       }
 
