@@ -28,4 +28,4 @@ Rabi get key # Getting the value by passing the key
 
 # CLI Snapshot
 
-![Rabi CLI][./images/CLI.png]
+![Rabi CLI](./images/CLI.png)
