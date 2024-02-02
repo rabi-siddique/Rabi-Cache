@@ -95,9 +95,19 @@ function checkAndExtractKeyAndValue(command: string): [string, string] | never {
       throw new Error(ErrorMessages.InvalidCommand);
     }
   }
+
+  // When there is inconsistency in quotes
+  else if (
+    (command[0] === "'" && command.at(-1) !== "'") ||
+    (command[0] === '"' && command.at(-1) !== '"') ||
+    (command[0] !== "'" && command.at(-1) === "'") ||
+    (command[0] !== '"' && command.at(-1) === '"')
+  ) {
+    throw new Error(ErrorMessages.InvalidCommand);
+  }
   // When key and value is not wrapped in "" or ''
   else {
-    const splittedCommand = command.split(' ');
+    const splittedCommand = command.split(' ').filter((part) => part !== '');
     const isMissingKeyAndValueParams =
       splittedCommand.length === 1 && splittedCommand[0] === '';
     const hasMoreThanTwoParams = splittedCommand.length > 2;
