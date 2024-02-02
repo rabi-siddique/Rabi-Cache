@@ -18,32 +18,25 @@ export function checkCommand(command: string) {
   // Validating Operation
   if (
     !(
-      command.startsWith('insert ') ||
-      command.startsWith('update ') ||
-      command.startsWith('delete ') ||
-      command.startsWith('get ')
+      command.startsWith('insert') ||
+      command.startsWith('update') ||
+      command.startsWith('delete') ||
+      command.startsWith('get')
     )
   ) {
     throw new Error(ErrorMessages.InvalidOperation);
   }
 
-  if (command.startsWith('insert ')) {
-    command = command.substring(8);
-  } else if (command.startsWith('update ')) {
-    command = command.substring(8);
-  } else if (command.startsWith('delete ')) {
-    command = command.substring(8);
-  } else if (command.startsWith('get ')) {
+  if (command.startsWith('insert')) {
+    command = command.substring(7);
+  } else if (command.startsWith('update')) {
+    command = command.substring(7);
+  } else if (command.startsWith('delete')) {
+    command = command.substring(7);
+    return checkAndExtractKey(command.trim());
+  } else if (command.startsWith('get')) {
     command = command.substring(4);
-  }
-
-  command = command.trim();
-
-  // Validating Parameters
-  if (command.startsWith('get ')) {
-    return checkAndExtractKey(command.substring(4));
-  } else if (command.startsWith('delete ')) {
-    return checkAndExtractKey(command.substring(8));
+    return checkAndExtractKey(command.trim());
   }
 }
 
@@ -57,8 +50,8 @@ function checkAndExtractKey(command: string): string | never {
     }
   }
   // When key is wrapped is '' quotes
-  else if (command === "'" && command.at(-1) === '"') {
-    if (getCharFrequency(command, '"') === 2) {
+  else if (command[0] === "'" && command.at(-1) === "'") {
+    if (getCharFrequency(command, "'") === 2) {
       return removeFirstAndLastChar(command);
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
@@ -66,7 +59,10 @@ function checkAndExtractKey(command: string): string | never {
   }
   // When key is not wrapped in "" or ''
   else {
-    if (command.split(' ').length > 1) {
+    if (
+      command.split(' ').length > 1 ||
+      (command.split(' ').length === 1 && command.split(' ')[0] === '')
+    ) {
       throw new Error(ErrorMessages.InvalidCommand);
     } else {
       return command;
