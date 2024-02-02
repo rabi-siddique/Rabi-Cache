@@ -31,10 +31,10 @@ export function checkCommand(
 
   if (command.startsWith('insert')) {
     command = command.substring(7);
-    return ['', ''];
+    return checkAndExtractKeyAndValue(command.trim());
   } else if (command.startsWith('update')) {
     command = command.substring(7);
-    return ['', ''];
+    return checkAndExtractKeyAndValue(command.trim());
   } else if (command.startsWith('delete')) {
     command = command.substring(7);
     return checkAndExtractKey(command.trim());
@@ -47,7 +47,7 @@ export function checkCommand(
 }
 
 function checkAndExtractKey(command: string): [string] | never {
-  // When key is wrapped is "" quotes
+  // When key is wrapped in "" quotes
   if (command[0] === '"' && command.at(-1) === '"') {
     if (getCharFrequency(command, '"') === 2) {
       return [removeFirstAndLastChar(command)];
@@ -55,7 +55,7 @@ function checkAndExtractKey(command: string): [string] | never {
       throw new Error(ErrorMessages.InvalidCommand);
     }
   }
-  // When key is wrapped is '' quotes
+  // When key is wrapped in '' quotes
   else if (command[0] === "'" && command.at(-1) === "'") {
     if (getCharFrequency(command, "'") === 2) {
       return [removeFirstAndLastChar(command)];
@@ -76,21 +76,61 @@ function checkAndExtractKey(command: string): [string] | never {
   }
 }
 
-// function checkAndExtractKeyAndValue(command: string): string | never {
-//   if (true) {
-//   }
-//   // When key and value is not wrapped in "" or ''
-//   else {
-//     if (
-//       command.split(' ').length > 1 ||
-//       (command.split(' ').length === 1 && command.split(' ')[0] === '')
-//     ) {
-//       throw new Error(ErrorMessages.InvalidCommand);
-//     } else {
-//       return command;
-//     }
-//   }
-// }
+function checkAndExtractKeyAndValue(command: string): [string, string] | never {
+  // When key and value is wrapped in "" quotes
+  if (command[0] === '"' && command.at(-1) === '"') {
+    if (getCharFrequency(command, '"') === 4) {
+      const splitIndex = findSplitIndex(command, '"');
+      return getKeyAndValue(splitIndex, command);
+    } else {
+      throw new Error(ErrorMessages.InvalidCommand);
+    }
+  }
+  // When key and value is wrapped in '' quotes
+  else if (command[0] === "'" && command.at(-1) === "'") {
+    if (getCharFrequency(command, "'") === 4) {
+      const splitIndex = findSplitIndex(command, "'");
+      return getKeyAndValue(splitIndex, command);
+    } else {
+      throw new Error(ErrorMessages.InvalidCommand);
+    }
+  }
+  // When key and value is not wrapped in "" or ''
+  else {
+    const splittedCommand = command.split(' ');
+    const isMissingKeyAndValueParams =
+      splittedCommand.length === 1 && splittedCommand[0] === '';
+    const hasMoreThanTwoParams = splittedCommand.length > 2;
+    const hasTwoParams = splittedCommand.length === 2;
+
+    if (!hasMoreThanTwoParams && !isMissingKeyAndValueParams && hasTwoParams) {
+      return [splittedCommand[0], splittedCommand[1]];
+    } else {
+      throw new Error(ErrorMessages.InvalidCommand);
+    }
+  }
+}
+
+function findSplitIndex(command: string, match: string): number {
+  let count: number = 0;
+
+  for (let i = 0; i < command.length; i++) {
+    if (count === 2) {
+      return i;
+    }
+    if (command[i] === match) {
+      count += 1;
+    }
+  }
+
+  return -1;
+}
+
+function getKeyAndValue(splitIndex: number, command: string): [string, string] {
+  const key = removeFirstAndLastChar(command.substring(0, splitIndex).trim());
+  const value = removeFirstAndLastChar(command.substring(splitIndex).trim());
+  return [key, value];
+}
 
 function getCharFrequency(command: string, target: string): number {
   let count: number = 0;
