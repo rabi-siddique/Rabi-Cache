@@ -72,12 +72,12 @@ describe('Checking Commands', () => {
 
   it("should handle keys with multiple spaces without any errors with 'get' command", () => {
     const command = 'Rabi   get   key';
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should handle keys with spaces without any errors with 'get' command", () => {
     const command = 'Rabi get "key with spaces"';
-    expect(checkCommand(command)).toBe('key with spaces');
+    expect(checkCommand(command)).toEqual(['key with spaces']);
   });
 
   it("should validate a valid 'get' command with 'Rabi' prefix and supported operation", () => {
@@ -87,27 +87,27 @@ describe('Checking Commands', () => {
 
   it("should extract key from a valid 'get' command", () => {
     const command = 'Rabi get key';
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should extract key from a valid 'get' command using double quotes", () => {
     const command = 'Rabi get "key"';
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should extract key from a valid 'get' command using single quotes", () => {
     const command = "Rabi get 'key'";
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should handle keys with multiple spaces without any errors with 'delete' command", () => {
     const command = 'Rabi   delete   key';
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should handle keys with spaces without any errors with 'delete' command", () => {
     const command = 'Rabi delete "key with spaces"';
-    expect(checkCommand(command)).toBe('key with spaces');
+    expect(checkCommand(command)).toEqual(['key with spaces']);
   });
   it("should validate a valid 'delete' command with 'Rabi' prefix and supported operation", () => {
     const command = 'Rabi delete key';
@@ -116,16 +116,16 @@ describe('Checking Commands', () => {
 
   it("should extract key from a valid 'delete' command", () => {
     const command = 'Rabi delete key';
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should extract key from a valid 'delete' command using double quotes", () => {
     const command = 'Rabi delete "key"';
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 
   it("should extract key from a valid 'delete' command using single quotes", () => {
     const command = "Rabi delete 'key'";
-    expect(checkCommand(command)).toBe('key');
+    expect(checkCommand(command)).toEqual(['key']);
   });
 });

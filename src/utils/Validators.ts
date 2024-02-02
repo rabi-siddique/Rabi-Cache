@@ -5,7 +5,9 @@ export function isValidOperation(value: string): boolean {
   return validOperations.includes(value);
 }
 
-export function checkCommand(command: string) {
+export function checkCommand(
+  command: string
+): [string] | [string, string] | never {
   command.trim();
 
   // Validating Rabi
@@ -29,22 +31,26 @@ export function checkCommand(command: string) {
 
   if (command.startsWith('insert')) {
     command = command.substring(7);
+    return ['', ''];
   } else if (command.startsWith('update')) {
     command = command.substring(7);
+    return ['', ''];
   } else if (command.startsWith('delete')) {
     command = command.substring(7);
     return checkAndExtractKey(command.trim());
   } else if (command.startsWith('get')) {
     command = command.substring(4);
     return checkAndExtractKey(command.trim());
+  } else {
+    throw new Error(ErrorMessages.InvalidCommand);
   }
 }
 
-function checkAndExtractKey(command: string): string | never {
+function checkAndExtractKey(command: string): [string] | never {
   // When key is wrapped is "" quotes
   if (command[0] === '"' && command.at(-1) === '"') {
     if (getCharFrequency(command, '"') === 2) {
-      return removeFirstAndLastChar(command);
+      return [removeFirstAndLastChar(command)];
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }
@@ -52,7 +58,7 @@ function checkAndExtractKey(command: string): string | never {
   // When key is wrapped is '' quotes
   else if (command[0] === "'" && command.at(-1) === "'") {
     if (getCharFrequency(command, "'") === 2) {
-      return removeFirstAndLastChar(command);
+      return [removeFirstAndLastChar(command)];
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }
@@ -65,10 +71,26 @@ function checkAndExtractKey(command: string): string | never {
     ) {
       throw new Error(ErrorMessages.InvalidCommand);
     } else {
-      return command;
+      return [command];
     }
   }
 }
+
+// function checkAndExtractKeyAndValue(command: string): string | never {
+//   if (true) {
+//   }
+//   // When key and value is not wrapped in "" or ''
+//   else {
+//     if (
+//       command.split(' ').length > 1 ||
+//       (command.split(' ').length === 1 && command.split(' ')[0] === '')
+//     ) {
+//       throw new Error(ErrorMessages.InvalidCommand);
+//     } else {
+//       return command;
+//     }
+//   }
+// }
 
 function getCharFrequency(command: string, target: string): number {
   let count: number = 0;
