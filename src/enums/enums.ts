@@ -18,6 +18,7 @@ export const enum Operations {
   GET = 'get',
   DELETE = 'delete',
   UPDATE = 'update',
+  SHOW = 'show',
 }
 
 export const CACHE_KEYWORD = 'Rabi';

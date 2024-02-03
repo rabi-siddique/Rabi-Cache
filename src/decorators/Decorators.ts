@@ -116,6 +116,12 @@ export function validateCommand(
         commandWords[1] === Operations.DELETE)
     ) {
       originalMethod.apply(this, [commandWords.join(' ')]);
+    } else if (
+      commandWords.length === 2 &&
+      commandWords[0] === CACHE_KEYWORD &&
+      commandWords[1] === Operations.SHOW
+    ) {
+      originalMethod.apply(this, [commandWords.join(' ')]);
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }

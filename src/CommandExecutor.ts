@@ -36,6 +36,14 @@ export class CommandExecutor {
         this.cache.get(key);
         break;
       }
+      case Operations.GET: {
+        this.cache.get(key);
+        break;
+      }
+      case Operations.SHOW: {
+        this.cache.show();
+        break;
+      }
       default: {
         throw new Error(ErrorMessages.InvalidOperation);
       }

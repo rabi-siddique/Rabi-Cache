@@ -5,6 +5,7 @@ export interface ICache {
   get(key: string): unknown;
   delete(key: string): void;
   update(key: string, newValue: unknown): void;
+  show(): void;
 }
 
 export interface RabiCache {
@@ -45,5 +46,9 @@ export class Cache implements ICache {
   @logMessage
   public update(key: string, newValue: unknown): void {
     Cache.cache[key] = newValue;
+  }
+
+  public show() {
+    console.log(Cache.cache);
   }
 }
