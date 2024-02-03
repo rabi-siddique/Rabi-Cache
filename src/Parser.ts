@@ -55,44 +55,35 @@ export class Parser {
   }
 
   private checkAndExtractKey(command: string): [string] | never {
-    // When key is wrapped in "" quotes
-    if (command[0] === '"' && command.at(-1) === '"') {
-      if (this.getCharFrequency(command, '"') === 2) {
-        const [key] = [this.removeFirstAndLastChar(command)];
-        if (key.trim().length === 0) {
-          throw new Error(ErrorMessages.InvalidCommand);
-        }
-        return [key];
-      } else {
-        throw new Error(ErrorMessages.InvalidCommand);
-      }
-    }
-    // When key is wrapped in '' quotes
-    else if (command[0] === "'" && command.at(-1) === "'") {
-      if (this.getCharFrequency(command, "'") === 2) {
-        const [key] = [this.removeFirstAndLastChar(command)];
-        if (key.trim().length === 0) {
-          throw new Error(ErrorMessages.InvalidCommand);
-        }
-        return [key];
-      } else {
-        throw new Error(ErrorMessages.InvalidCommand);
-      }
-    }
-    // When key is not wrapped in "" or ''
-    else {
-      const splittedCommand = command.split(' ').filter((part) => part !== '');
-      const isMissingKeyParams =
-        (splittedCommand.length === 1 && splittedCommand[0] === '') ||
-        splittedCommand.length === 0;
-      const hasMoreThanOneParam = splittedCommand.length > 1;
+    const firstChar = command[0];
+    const lastChar = command[0];
+    const isDoubleQuotes = firstChar === '"' && lastChar === '"';
+    const isSingleQuotes = firstChar === "'" && lastChar === "'";
 
-      if (hasMoreThanOneParam || isMissingKeyParams) {
-        throw new Error(ErrorMessages.InvalidCommand);
+    if (isDoubleQuotes || isSingleQuotes) {
+      const target = isDoubleQuotes ? '"' : "'";
+      if (this.getCharFrequency(command, target) === 2) {
+        const [key] = [this.removeFirstAndLastChar(command)];
+        if (key.trim().length === 0) {
+          throw new Error(ErrorMessages.InvalidCommand);
+        }
+        return [key];
       } else {
-        return [command];
+        throw new Error(ErrorMessages.InvalidCommand);
       }
     }
+
+    const splittedCommand = command
+      .trim()
+      .split(' ')
+      .filter((part) => part !== '');
+    const isValidCommand = splittedCommand.length === 1;
+
+    if (!isValidCommand) {
+      throw new Error(ErrorMessages.InvalidCommand);
+    }
+
+    return [command];
   }
 
   private checkAndExtractKeyAndValue(
