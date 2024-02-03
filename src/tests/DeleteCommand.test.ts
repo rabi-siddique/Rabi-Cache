@@ -43,17 +43,29 @@ describe('Delete Command Test Cases', () => {
     const commandA = "Rabi delete ''";
     const commandB = "Rabi delete '' ";
     const commandC = "Rabi delete ''       ";
+    const commandD = 'Rabi delete "     "';
+    const commandE = 'Rabi delete "     " ';
+    const commandF = 'Rabi delete   "     "        ';
     expect(() => checkCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandD)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandE)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandF)).toThrow(ErrorMessages.InvalidCommand);
   });
 
   it('should throw error when key is not provided', () => {
     const commandA = 'Rabi delete';
     const commandB = 'Rabi delete ';
     const commandC = 'Rabi delete       ';
+    const commandD = "Rabi delete '     '";
+    const commandE = "Rabi delete '     ' ";
+    const commandF = "Rabi delete   '     '        ";
     expect(() => checkCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandD)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandE)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandF)).toThrow(ErrorMessages.InvalidCommand);
   });
 });

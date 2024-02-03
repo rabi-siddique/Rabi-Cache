@@ -73,10 +73,12 @@ function checkAndExtractKey(command: string): [string] | never {
   }
   // When key is not wrapped in "" or ''
   else {
-    if (
-      command.split(' ').length > 1 ||
-      (command.split(' ').length === 1 && command.split(' ')[0] === '')
-    ) {
+    const splittedCommand = command.split(' ').filter((part) => part !== '');
+    const isMissingKeyParams =
+      splittedCommand.length === 1 && splittedCommand[0] === '';
+    const hasMoreThanOneParam = splittedCommand.length > 1;
+
+    if (hasMoreThanOneParam || isMissingKeyParams) {
       throw new Error(ErrorMessages.InvalidCommand);
     } else {
       return [command];

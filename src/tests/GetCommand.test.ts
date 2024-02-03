@@ -35,18 +35,30 @@ describe('Get Command Test Cases', () => {
     const commandA = 'Rabi get " "';
     const commandB = 'Rabi get " " ';
     const commandC = 'Rabi get " "            ';
+    const commandD = 'Rabi get "     "';
+    const commandE = 'Rabi get "     " ';
+    const commandF = 'Rabi get   "     "        ';
     expect(() => checkCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandD)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandE)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandF)).toThrow(ErrorMessages.InvalidCommand);
   });
 
   it("should throw error when there are spaces in key param of 'get' command using single quotes", () => {
     const commandA = "Rabi get ''";
     const commandB = "Rabi get '' ";
     const commandC = "Rabi get ''       ";
+    const commandD = "Rabi get '     '";
+    const commandE = "Rabi get '     ' ";
+    const commandF = "Rabi get   '     '        ";
     expect(() => checkCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
     expect(() => checkCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandD)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandE)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => checkCommand(commandF)).toThrow(ErrorMessages.InvalidCommand);
   });
 
   it('should throw error when key is not provided', () => {
