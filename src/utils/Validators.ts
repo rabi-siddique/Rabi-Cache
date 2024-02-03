@@ -50,7 +50,11 @@ function checkAndExtractKey(command: string): [string] | never {
   // When key is wrapped in "" quotes
   if (command[0] === '"' && command.at(-1) === '"') {
     if (getCharFrequency(command, '"') === 2) {
-      return [removeFirstAndLastChar(command)];
+      const [key] = [removeFirstAndLastChar(command)];
+      if (key.trim().length === 0) {
+        throw new Error(ErrorMessages.InvalidCommand);
+      }
+      return [key];
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }
@@ -58,7 +62,11 @@ function checkAndExtractKey(command: string): [string] | never {
   // When key is wrapped in '' quotes
   else if (command[0] === "'" && command.at(-1) === "'") {
     if (getCharFrequency(command, "'") === 2) {
-      return [removeFirstAndLastChar(command)];
+      const [key] = [removeFirstAndLastChar(command)];
+      if (key.trim().length === 0) {
+        throw new Error(ErrorMessages.InvalidCommand);
+      }
+      return [key];
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }
@@ -81,7 +89,11 @@ function checkAndExtractKeyAndValue(command: string): [string, string] | never {
   if (command[0] === '"' && command.at(-1) === '"') {
     if (getCharFrequency(command, '"') === 4) {
       const splitIndex = findSplitIndex(command, '"');
-      return getKeyAndValue(splitIndex, command);
+      const [key, value] = getKeyAndValue(splitIndex, command);
+      if (key.trim().length === 0 || value.trim().length === 0) {
+        throw new Error(ErrorMessages.InvalidCommand);
+      }
+      return [key, value];
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }
@@ -90,7 +102,11 @@ function checkAndExtractKeyAndValue(command: string): [string, string] | never {
   else if (command[0] === "'" && command.at(-1) === "'") {
     if (getCharFrequency(command, "'") === 4) {
       const splitIndex = findSplitIndex(command, "'");
-      return getKeyAndValue(splitIndex, command);
+      const [key, value] = getKeyAndValue(splitIndex, command);
+      if (key.trim().length === 0 || value.trim().length === 0) {
+        throw new Error(ErrorMessages.InvalidCommand);
+      }
+      return [key, value];
     } else {
       throw new Error(ErrorMessages.InvalidCommand);
     }
