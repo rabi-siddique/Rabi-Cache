@@ -1,11 +1,12 @@
 import { createInterface } from 'readline';
-import { CommandExecutor } from './CommandExecutor';
+import { CommandExecutor } from './Executor';
 import { Cache } from './Cache';
 import {
   cliStartLogger,
   errorMessageLogger,
   exitCliLogger,
 } from './utils/Logger';
+import { Parser } from './Parser';
 
 const executor = new CommandExecutor(Cache.getInstance());
 
@@ -22,7 +23,9 @@ function getCommandLineInput() {
         exitCliLogger();
         cli.close();
       } else {
-        executor.executeCommand(userInput);
+        const parser = new Parser();
+        const [operation, key, value] = parser.checkCommand(userInput);
+        executor.performOperation(operation, key, value);
         getCommandLineInput();
       }
     } catch (error: unknown) {

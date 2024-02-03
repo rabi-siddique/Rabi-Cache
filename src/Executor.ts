@@ -1,5 +1,4 @@
 import { ICache } from './Cache';
-import { validateCommand } from './decorators/Decorators';
 import { ErrorMessages, Operations } from './enums/enums';
 
 export class CommandExecutor {
@@ -8,13 +7,7 @@ export class CommandExecutor {
     this.cache = cache;
   }
 
-  @validateCommand
-  public executeCommand(command: string): void {
-    const [keyword, operation, key, value] = command.split(' ');
-    this.performOperation(operation, key, value);
-  }
-
-  private performOperation(
+  public performOperation(
     operation: string,
     key: string,
     value?: string
