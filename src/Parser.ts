@@ -83,7 +83,8 @@ export class Parser {
     else {
       const splittedCommand = command.split(' ').filter((part) => part !== '');
       const isMissingKeyParams =
-        splittedCommand.length === 1 && splittedCommand[0] === '';
+        (splittedCommand.length === 1 && splittedCommand[0] === '') ||
+        splittedCommand.length === 0;
       const hasMoreThanOneParam = splittedCommand.length > 1;
 
       if (hasMoreThanOneParam || isMissingKeyParams) {
