@@ -56,7 +56,7 @@ export class Parser {
 
   private checkAndExtractKey(command: string): [string] | never {
     const firstChar = command[0];
-    const lastChar = command[0];
+    const lastChar = command.at(-1);
     const isDoubleQuotes = firstChar === '"' && lastChar === '"';
     const isSingleQuotes = firstChar === "'" && lastChar === "'";
 
@@ -89,23 +89,16 @@ export class Parser {
   private checkAndExtractKeyAndValue(
     command: string
   ): [string, string] | never {
-    // When key and value is wrapped in "" quotes
-    if (command[0] === '"' && command.at(-1) === '"') {
-      if (this.getCharFrequency(command, '"') === 4) {
-        const splitIndex = this.findSplitIndex(command, '"');
-        const [key, value] = this.getKeyAndValue(splitIndex, command);
-        if (key.trim().length === 0 || value.trim().length === 0) {
-          throw new Error(ErrorMessages.InvalidCommand);
-        }
-        return [key, value];
-      } else {
-        throw new Error(ErrorMessages.InvalidCommand);
-      }
-    }
-    // When key and value is wrapped in '' quotes
-    else if (command[0] === "'" && command.at(-1) === "'") {
-      if (this.getCharFrequency(command, "'") === 4) {
-        const splitIndex = this.findSplitIndex(command, "'");
+    const firstChar = command[0];
+    const lastChar = command.at(-1);
+    const isDoubleQuotes = firstChar === '"' && lastChar === '"';
+    const isSingleQuotes = firstChar === "'" && lastChar === "'";
+
+    if (isSingleQuotes || isDoubleQuotes) {
+      const target = isDoubleQuotes ? '"' : "'";
+
+      if (this.getCharFrequency(command, target) === 4) {
+        const splitIndex = this.findSplitIndex(command, target);
         const [key, value] = this.getKeyAndValue(splitIndex, command);
         if (key.trim().length === 0 || value.trim().length === 0) {
           throw new Error(ErrorMessages.InvalidCommand);
@@ -116,32 +109,25 @@ export class Parser {
       }
     }
 
-    // When there is inconsistency in quotes
-    else if (
-      (command[0] === "'" && command.at(-1) !== "'") ||
-      (command[0] === '"' && command.at(-1) !== '"') ||
-      (command[0] !== "'" && command.at(-1) === "'") ||
-      (command[0] !== '"' && command.at(-1) === '"')
+    if (
+      (firstChar === '"' && lastChar !== '"') ||
+      (firstChar === "'" && lastChar !== "'") ||
+      (firstChar !== '"' && lastChar === '"') ||
+      (firstChar !== "'" && lastChar === "'")
     ) {
       throw new Error(ErrorMessages.InvalidCommand);
     }
-    // When key and value is not wrapped in "" or ''
-    else {
-      const splittedCommand = command.split(' ').filter((part) => part !== '');
-      const isMissingKeyAndValueParams =
-        splittedCommand.length === 1 && splittedCommand[0] === '';
-      const hasMoreThanTwoParams = splittedCommand.length > 2;
-      const hasTwoParams = splittedCommand.length === 2;
 
-      if (
-        !hasMoreThanTwoParams &&
-        !isMissingKeyAndValueParams &&
-        hasTwoParams
-      ) {
-        return [splittedCommand[0], splittedCommand[1]];
-      } else {
-        throw new Error(ErrorMessages.InvalidCommand);
-      }
+    const splittedCommand = command.split(' ').filter((part) => part !== '');
+    const isMissingKeyAndValueParams =
+      splittedCommand.length === 1 && splittedCommand[0] === '';
+    const hasMoreThanTwoParams = splittedCommand.length > 2;
+    const hasTwoParams = splittedCommand.length === 2;
+
+    if (!hasMoreThanTwoParams && !isMissingKeyAndValueParams && hasTwoParams) {
+      return [splittedCommand[0], splittedCommand[1]];
+    } else {
+      throw new Error(ErrorMessages.InvalidCommand);
     }
   }
 
