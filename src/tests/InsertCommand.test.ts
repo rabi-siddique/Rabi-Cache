@@ -9,12 +9,16 @@ describe('Insert Command Test Cases', () => {
   });
   it("should handle keys with multiple spaces without any errors with 'insert' command", () => {
     const command = 'Rabi   insert   keyA            valueA';
-    expect(parser.checkCommand(command)).toEqual(['insert', 'keyA', 'valueA']);
+    expect(parser.validateAndParseCommand(command)).toEqual([
+      'insert',
+      'keyA',
+      'valueA',
+    ]);
   });
 
   it("should handle keys with spaces without any errors with 'insert' command", () => {
     const command = 'Rabi insert "key with spaces" "value with spaces"';
-    expect(parser.checkCommand(command)).toEqual([
+    expect(parser.validateAndParseCommand(command)).toEqual([
       'insert',
       'key with spaces',
       'value with spaces',
@@ -23,43 +27,51 @@ describe('Insert Command Test Cases', () => {
 
   it("should validate a valid 'insert' command with 'Rabi' prefix and supported operation", () => {
     const command = 'Rabi insert key value';
-    expect(() => parser.checkCommand(command)).not.toThrow();
+    expect(() => parser.validateAndParseCommand(command)).not.toThrow();
   });
 
   it("should extract key from a valid 'insert' command", () => {
     const command = 'Rabi insert key value';
-    expect(parser.checkCommand(command)).toEqual(['insert', 'key', 'value']);
+    expect(parser.validateAndParseCommand(command)).toEqual([
+      'insert',
+      'key',
+      'value',
+    ]);
   });
 
   it("should extract key from a valid 'insert' command using double quotes", () => {
     const command = 'Rabi insert "key3" "value3"';
-    expect(parser.checkCommand(command)).toEqual(['insert', 'key3', 'value3']);
+    expect(parser.validateAndParseCommand(command)).toEqual([
+      'insert',
+      'key3',
+      'value3',
+    ]);
   });
 
   it("should handle empty key and value in 'insert' command", () => {
     const command = 'Rabi insert "" ""';
-    expect(() => parser.checkCommand(command)).toThrow(
+    expect(() => parser.validateAndParseCommand(command)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
 
   it("should handle spaces in key and value in 'insert' command", () => {
     const command = 'Rabi insert " " " "';
-    expect(() => parser.checkCommand(command)).toThrow(
+    expect(() => parser.validateAndParseCommand(command)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
 
   it("should handle empty key and value in 'insert' command using single quotes", () => {
     const command = "Rabi insert '' ''";
-    expect(() => parser.checkCommand(command)).toThrow(
+    expect(() => parser.validateAndParseCommand(command)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
 
   it("should handle spaces in key and value in 'insert' command using single quotes", () => {
     const command = "Rabi insert ' ' ' '";
-    expect(() => parser.checkCommand(command)).toThrow(
+    expect(() => parser.validateAndParseCommand(command)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
@@ -69,22 +81,26 @@ describe('Insert Command Test Cases', () => {
     const commandB = 'Rabi insert "key2" "value2';
     const commandC = "Rabi insert key2' 'value2'";
     const commandD = 'Rabi insert key2" "value2"';
-    expect(() => parser.checkCommand(commandA)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandB)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandC)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandD)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandD)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
 
   it("should extract key from a valid 'insert' command using single quotes", () => {
     const command = "Rabi insert 'key2' 'value2'";
-    expect(parser.checkCommand(command)).toEqual(['insert', 'key2', 'value2']);
+    expect(parser.validateAndParseCommand(command)).toEqual([
+      'insert',
+      'key2',
+      'value2',
+    ]);
   });
 });

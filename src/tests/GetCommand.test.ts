@@ -9,32 +9,35 @@ describe('Get Command Test Cases', () => {
   });
   it("should handle keys with multiple spaces without any errors with 'get' command", () => {
     const command = 'Rabi   get   key';
-    expect(parser.checkCommand(command)).toEqual(['get', 'key']);
+    expect(parser.validateAndParseCommand(command)).toEqual(['get', 'key']);
   });
 
   it("should handle keys with spaces without any errors with 'get' command", () => {
     const command = 'Rabi get "key with spaces"';
-    expect(parser.checkCommand(command)).toEqual(['get', 'key with spaces']);
+    expect(parser.validateAndParseCommand(command)).toEqual([
+      'get',
+      'key with spaces',
+    ]);
   });
 
   it("should validate a valid 'get' command with 'Rabi' prefix and supported operation", () => {
     const command = 'Rabi get key';
-    expect(() => parser.checkCommand(command)).not.toThrow();
+    expect(() => parser.validateAndParseCommand(command)).not.toThrow();
   });
 
   it("should extract key from a valid 'get' command", () => {
     const command = 'Rabi get key';
-    expect(parser.checkCommand(command)).toEqual(['get', 'key']);
+    expect(parser.validateAndParseCommand(command)).toEqual(['get', 'key']);
   });
 
   it("should extract key from a valid 'get' command using double quotes", () => {
     const command = 'Rabi get "key"';
-    expect(parser.checkCommand(command)).toEqual(['get', 'key']);
+    expect(parser.validateAndParseCommand(command)).toEqual(['get', 'key']);
   });
 
   it("should extract key from a valid 'get' command using single quotes", () => {
     const command = "Rabi get 'key'";
-    expect(parser.checkCommand(command)).toEqual(['get', 'key']);
+    expect(parser.validateAndParseCommand(command)).toEqual(['get', 'key']);
   });
 
   it("should throw error when there are spaces in key param of 'get' command", () => {
@@ -44,22 +47,22 @@ describe('Get Command Test Cases', () => {
     const commandD = 'Rabi get "     "';
     const commandE = 'Rabi get "     " ';
     const commandF = 'Rabi get   "     "        ';
-    expect(() => parser.checkCommand(commandA)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandB)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandC)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandD)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandD)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandE)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandE)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandF)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandF)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
@@ -71,22 +74,22 @@ describe('Get Command Test Cases', () => {
     const commandD = "Rabi get '     '";
     const commandE = "Rabi get '     ' ";
     const commandF = "Rabi get   '     '        ";
-    expect(() => parser.checkCommand(commandA)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandB)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandC)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandD)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandD)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandE)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandE)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandF)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandF)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });
@@ -95,13 +98,13 @@ describe('Get Command Test Cases', () => {
     const commandA = 'Rabi get';
     const commandB = 'Rabi get ';
     const commandC = 'Rabi get       ';
-    expect(() => parser.checkCommand(commandA)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandB)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
       ErrorMessages.InvalidCommand
     );
-    expect(() => parser.checkCommand(commandC)).toThrow(
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
       ErrorMessages.InvalidCommand
     );
   });

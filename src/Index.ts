@@ -24,7 +24,8 @@ function getCommandLineInput() {
         cli.close();
       } else {
         const parser = new Parser();
-        const [operation, key, value] = parser.checkCommand(userInput);
+        const [operation, key, value] =
+          parser.validateAndParseCommand(userInput);
         executor.performOperation(operation, key, value);
         getCommandLineInput();
       }

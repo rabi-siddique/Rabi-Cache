@@ -1,59 +1,54 @@
 import { ErrorMessages, Operations } from './enums/enums';
 
 export class Parser {
-  public checkCommand(
+  public validateAndParseCommand(
     command: string
   ): [string, string] | [string, string, string] | never {
-    command.trim();
+    command = command.trim();
 
-    // Validating Rabi
     if (!command.startsWith('Rabi ')) {
       throw new Error(ErrorMessages.NoRabi);
     }
 
     command = command.substring(4).trim();
 
-    // Validating Operation
-    if (
-      !(
-        command.startsWith('insert') ||
-        command.startsWith('update') ||
-        command.startsWith('delete') ||
-        command.startsWith('get') ||
-        command.startsWith('show')
-      )
-    ) {
-      throw new Error(ErrorMessages.InvalidOperation);
-    }
+    let operation: string;
+    let keyAndValues: [string, string] | [string];
 
-    if (command.startsWith('insert')) {
-      command = command.substring(7);
-      return [
-        Operations.INSERT,
-        ...this.checkAndExtractKeyAndValue(command.trim()),
-      ];
-    } else if (command.startsWith('update')) {
-      command = command.substring(7);
-      return [
-        Operations.UPDATE,
-        ...this.checkAndExtractKeyAndValue(command.trim()),
-      ];
-    } else if (command.startsWith('delete')) {
-      command = command.substring(7);
-      return [Operations.DELETE, ...this.checkAndExtractKey(command.trim())];
-    } else if (command.startsWith('get')) {
-      command = command.substring(4);
-      return [Operations.GET, ...this.checkAndExtractKey(command.trim())];
-    } else if (command.startsWith('show')) {
-      if (command.trim().split(' ').length > 1) {
+    switch (true) {
+      case command.startsWith('insert'):
+        operation = Operations.INSERT;
+        keyAndValues = this.checkAndExtractKeyAndValue(
+          command.substring(7).trim()
+        );
+        break;
+      case command.startsWith('update '):
+        operation = Operations.UPDATE;
+        keyAndValues = this.checkAndExtractKeyAndValue(
+          command.substring(7).trim()
+        );
+        break;
+      case command.startsWith('delete '):
+        operation = Operations.DELETE;
+        keyAndValues = this.checkAndExtractKey(command.substring(7).trim());
+        break;
+      case command.startsWith('get '):
+        operation = Operations.GET;
+        keyAndValues = this.checkAndExtractKey(command.substring(4).trim());
+        break;
+      case command.startsWith('show '):
+        if (command.split(' ').length > 1) {
+          throw new Error(ErrorMessages.InvalidCommand);
+        }
+        operation = Operations.SHOW;
+        keyAndValues = [''];
+        break;
+      default:
         throw new Error(ErrorMessages.InvalidCommand);
-      }
-      return [Operations.SHOW, ''];
-    } else {
-      throw new Error(ErrorMessages.InvalidCommand);
     }
-  }
 
+    return [operation, ...keyAndValues];
+  }
   private checkAndExtractKey(command: string): [string] | never {
     const firstChar = command[0];
     const lastChar = command.at(-1);
