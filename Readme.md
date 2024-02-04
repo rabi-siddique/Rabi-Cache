@@ -15,7 +15,7 @@ In the upcoming releases, the following functionalities are planned for incorpor
 - `Accepting Connections`: Enable `Rabi Cache` to accept and handle external connections.
 - `Key Expiry Timer`: Implement a timer mechanism to automatically expire keys based on a predefined timeframe.
 - `Cache Eviction Policies`: Introduce policies to efficiently manage cache space and evict items when needed.
-- `Double Quotes for Key Values`: Allow key values to be enclosed in double quotes for flexibility when adding via the CLI.
+- `Accepting Mixed Cases`: Parser should handle a situation where the key and value contain a mix of single and double quotes.
 
 # Supported Commands
 
@@ -24,8 +24,9 @@ Rabi insert key value # Inserting a key-value pair in cache
 Rabi update key value # Updating a key-value pair in cache
 Rabi delete key # Deleting a key-value pair by passing the key
 Rabi get key # Getting the value by passing the key
+Rabi show # Logging the key-value pairs present in the cache
 ```
 
 # CLI Snapshot
 
-![Rabi CLI](./images/CLI.png)
+![Rabi CLI](./images/v2.png)

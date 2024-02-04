@@ -36,7 +36,7 @@ export class Parser {
         operation = Operations.GET;
         keyAndValues = this.checkAndExtractKey(command.substring(4).trim());
         break;
-      case command.startsWith('show '):
+      case command.startsWith('show'):
         if (command.split(' ').length > 1) {
           throw new Error(ErrorMessages.InvalidCommand);
         }
