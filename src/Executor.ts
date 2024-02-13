@@ -1,7 +1,15 @@
 import { ICache } from './Cache';
 import { ErrorMessages, Operations } from './enums/enums';
 
-export class CommandExecutor {
+export interface ICommandExecutor {
+  performOperation(
+    operation: string,
+    key: string,
+    value?: string
+  ): void | unknown;
+}
+
+export class CommandExecutor implements ICommandExecutor {
   private cache: ICache;
   constructor(cache: ICache) {
     this.cache = cache;
@@ -11,7 +19,7 @@ export class CommandExecutor {
     operation: string,
     key: string,
     value?: string
-  ): void {
+  ): void | unknown {
     switch (operation) {
       case Operations.INSERT: {
         this.cache.insert(key, value);
@@ -26,12 +34,7 @@ export class CommandExecutor {
         break;
       }
       case Operations.GET: {
-        this.cache.get(key);
-        break;
-      }
-      case Operations.GET: {
-        this.cache.get(key);
-        break;
+        return this.cache.get(key);
       }
       case Operations.SHOW: {
         this.cache.show();
