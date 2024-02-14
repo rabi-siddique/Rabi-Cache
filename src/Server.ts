@@ -58,15 +58,26 @@ export class Server {
   }
   @handleErrorsForIncomingRequests
   public AddCacheData(req: Request, res: Response): void {
-    const { key, value } = req.body;
+    const { pair } = req.body;
+    const { key, value } = this.getKeyAndValue(pair);
     this.executor.performOperation(Operations.INSERT, key, value);
     res.status(200).send(SuccessMessages.Insertion);
   }
 
   @handleErrorsForIncomingRequests
   public UpdateCacheData(req: Request, res: Response): void {
-    const { key, value } = req.body;
+    const { pair } = req.body;
+    const { key, value } = this.getKeyAndValue(pair);
     this.executor.performOperation(Operations.UPDATE, key, value);
     res.status(200).send(SuccessMessages.Update);
+  }
+
+  private getKeyAndValue(obj: { [key: string]: unknown }): {
+    key: string;
+    value: unknown;
+  } {
+    const key: string = Object.keys(obj)[0];
+    const value: unknown = obj[key];
+    return { key, value };
   }
 }

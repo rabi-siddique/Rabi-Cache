@@ -5,7 +5,7 @@ export interface ICommandExecutor {
   performOperation(
     operation: string,
     key: string,
-    value?: string
+    value?: unknown
   ): void | unknown;
 }
 
