@@ -4,6 +4,8 @@ export const enum ErrorMessages {
   NoRabi = `Invalid Command. Make sure to start your command with 'Rabi'`,
   InvalidCommand = 'Invalid Command. Please type a command supported by our system',
   InvalidOperation = 'Invalid Operation. Allowed operations are insert, get, delete and update.',
+  BadRequestGetAndDelete = 'Bad Request. The endpoint expects exactly one query parameter.',
+  BadRequestPostAndUpdate = 'Bad Request. Request body cannot be empty for POST or PUT requests.',
 }
 
 export const enum SuccessMessages {

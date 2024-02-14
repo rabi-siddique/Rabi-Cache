@@ -1,6 +1,6 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import { ICommandExecutor } from './Executor';
-import { Operations, SuccessMessages } from './enums/enums';
+import { ErrorMessages, Operations, SuccessMessages } from './enums/enums';
 import { handleErrorsForIncomingRequests } from './decorators/Decorators';
 
 export class Server {
@@ -31,8 +31,25 @@ export class Server {
     });
   }
 
+  private validateRequestData(req: Request, res: Response, next: NextFunction) {
+    if (
+      (req.method === 'POST' || req.method === 'PUT') &&
+      Object.keys(req.body).length === 0
+    ) {
+      return res.status(400).send(ErrorMessages.BadRequestPostAndUpdate);
+    }
+    if (
+      (req.method === 'GET' || req.method === 'DELETE') &&
+      Object.keys(req.params).length !== 1
+    ) {
+      return res.status(400).send(ErrorMessages.BadRequestGetAndDelete);
+    }
+
+    next();
+  }
   private setUpMiddleWare(): void {
     this.app.use(express.json());
+    this.app.use('/data', this.validateRequestData);
   }
 
   private setupRoutes(): void {
