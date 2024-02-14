@@ -2,17 +2,28 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 import { ICommandExecutor } from './Executor';
 import { ErrorMessages, Operations, SuccessMessages } from './enums/enums';
 import { handleErrorsForIncomingRequests } from './decorators/Decorators';
+import { Server as HttpServer } from 'http';
 
-export class Server {
+export interface IServerInterface {
+  start(): Promise<void>;
+  stop(): void;
+  GetCacheData(req: Request, res: Response): void;
+  DeleteCacheData(req: Request, res: Response): void;
+  AddCacheData(req: Request, res: Response): void;
+  UpdateCacheData(req: Request, res: Response): void;
+}
+export class Server implements IServerInterface {
   private app: Express;
   private port: number;
   private executor: ICommandExecutor;
+  private serverInstance: HttpServer | null;
 
   constructor(executor: ICommandExecutor) {
     this.executor = executor;
     this.port = Number(process.env.PORT) || 8080;
     this.app = express();
     this.setUpMiddleWare();
+    this.serverInstance = null;
 
     // Bindings
     this.AddCacheData = this.AddCacheData.bind(this);
@@ -25,10 +36,17 @@ export class Server {
     this.setupRoutes();
   }
 
-  public start(): void {
-    this.app.listen(this.port, () => {
+  public async start(): Promise<void> {
+    this.serverInstance = await this.app.listen(this.port, () => {
       console.log(`Server is listening on port ${this.port}`);
     });
+  }
+
+  public stop(): void {
+    if (this.serverInstance !== null) {
+      this.serverInstance.close();
+      console.log('Server stopped');
+    }
   }
 
   private validateRequestData(req: Request, res: Response, next: NextFunction) {
