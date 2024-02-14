@@ -5,7 +5,7 @@ export const enum ErrorMessages {
   InvalidCommand = 'Invalid Command. Please type a command supported by our system',
   InvalidOperation = 'Invalid Operation. Allowed operations are insert, get, delete and update.',
   BadRequestGetAndDelete = 'Bad Request. The endpoint expects exactly one query parameter.',
-  BadRequestPostAndUpdate = 'Bad Request. Request body cannot be empty for POST or PUT requests.',
+  BadRequestPostAndUpdate = 'Bad Request. Key parameter must be a string',
 }
 
 export const enum SuccessMessages {

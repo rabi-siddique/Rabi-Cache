@@ -38,12 +38,6 @@ export class Server {
     ) {
       return res.status(400).send(ErrorMessages.BadRequestPostAndUpdate);
     }
-    if (
-      (req.method === 'GET' || req.method === 'DELETE') &&
-      Object.keys(req.params).length !== 1
-    ) {
-      return res.status(400).send(ErrorMessages.BadRequestGetAndDelete);
-    }
 
     next();
   }
@@ -67,6 +61,7 @@ export class Server {
       .status(200)
       .send({ data: { key: value }, message: SuccessMessages.Get });
   }
+
   @handleErrorsForIncomingRequests
   public DeleteCacheData(req: Request, res: Response): void {
     const { key } = req.params;

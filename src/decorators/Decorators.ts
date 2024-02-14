@@ -92,3 +92,34 @@ export function handleErrorsForIncomingRequests(
 
   return descriptor;
 }
+
+/**
+This decorator is currently not required but can be useful in the future for validating parameters of GET 
+and DELETE requests. Initially, the logic for parameter validation was planned to be placed in middleware.
+However, req.params are not defined in middleware because middleware is evaluated before reaching the route 
+handler.Once the route handler is reached, req.params becomes available. This behavior is a design decision 
+by Express. An alternative approach to incorporating parameter validation is to use inline middleware 
+directly where the route is defined. However, the decision was made to use decorators for consistency and 
+maintainability of the codebase. 
+*/
+export function validateQueryParams(
+  target: unknown,
+  key: string,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod: Function = descriptor.value;
+
+  descriptor.value = function (req: Request, res: Response) {
+    const { key } = req.params;
+    if (
+      (req.method === 'GET' || req.method === 'DELETE') &&
+      typeof key !== 'string'
+    ) {
+      return res.status(400).send(ErrorMessages.BadRequestGetAndDelete);
+    }
+
+    originalMethod.apply(this, [req, res]);
+  };
+
+  return descriptor;
+}
