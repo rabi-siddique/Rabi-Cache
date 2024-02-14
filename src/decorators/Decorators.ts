@@ -1,13 +1,14 @@
 import { RabiCache } from '../Cache';
 import { ErrorMessages, Operations, SuccessMessages } from '../enums/enums';
 import { logWithTimestamp, successMessageLogger } from '../utils/Logger';
+import { Request, Response } from 'express';
 
 export function logMessage(
   target: unknown,
   key: string,
   descriptor: PropertyDescriptor
 ) {
-  const originalMethod = descriptor.value;
+  const originalMethod: Function = descriptor.value;
 
   descriptor.value = function (...args: unknown[]) {
     const result = originalMethod.apply(this, args);
@@ -43,7 +44,7 @@ export function validateKey(cache: RabiCache) {
     key: string,
     descriptor: PropertyDescriptor
   ) {
-    const originalMethod = descriptor.value;
+    const originalMethod: Function = descriptor.value;
 
     descriptor.value = function (...args: unknown[]) {
       const keyArgument = args[0] as string;
@@ -70,4 +71,24 @@ export function validateKey(cache: RabiCache) {
 
     return descriptor;
   };
+}
+
+export function handleErrorsForIncomingRequests(
+  target: unknown,
+  key: string,
+  descriptor: PropertyDescriptor
+) {
+  const orginalFunction: Function = descriptor.value;
+
+  descriptor.value = function (req: Request, res: Response) {
+    try {
+      orginalFunction.apply(this, [req, res]);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        res.status(500).send(error.message);
+      }
+    }
+  };
+
+  return descriptor;
 }
