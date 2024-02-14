@@ -58,16 +58,14 @@ export class Server {
   }
   @handleErrorsForIncomingRequests
   public AddCacheData(req: Request, res: Response): void {
-    const { pair } = req.body;
-    const { key, value } = this.getKeyAndValue(pair);
+    const { key, value } = this.getKeyAndValue(req.body);
     this.executor.performOperation(Operations.INSERT, key, value);
     res.status(200).send(SuccessMessages.Insertion);
   }
 
   @handleErrorsForIncomingRequests
   public UpdateCacheData(req: Request, res: Response): void {
-    const { pair } = req.body;
-    const { key, value } = this.getKeyAndValue(pair);
+    const { key, value } = this.getKeyAndValue(req.body);
     this.executor.performOperation(Operations.UPDATE, key, value);
     res.status(200).send(SuccessMessages.Update);
   }
