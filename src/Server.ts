@@ -38,9 +38,8 @@ export class Server implements IServerInterface {
   }
 
   public async start(): Promise<void> {
-    this.serverInstance = await this.app.listen(this.port, () => {
-      console.log(`Server is listening on port ${this.port}`);
-    });
+    this.serverInstance = await this.app.listen(this.port);
+    console.log(`Server is listening on port ${this.port}`);
   }
 
   public stop(): void {
