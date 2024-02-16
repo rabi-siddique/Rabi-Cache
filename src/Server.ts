@@ -1,8 +1,9 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
-import { ICommandExecutor } from './Executor';
-import { ErrorMessages, Operations, SuccessMessages } from './enums/enums';
-import { handleErrorsForIncomingRequests } from './decorators/Decorators';
+import { ICommandExecutor } from './Executor.js';
+import { ErrorMessages, Operations, SuccessMessages } from './enums/enums.js';
+import { handleErrorsForIncomingRequests } from './decorators/Decorators.js';
 import { Server as HttpServer } from 'http';
+import { workerData } from 'worker_threads';
 
 export interface IServerInterface {
   start(): Promise<void>;
@@ -109,3 +110,6 @@ export class Server implements IServerInterface {
     return { key, value };
   }
 }
+
+const server = new Server(workerData.executor);
+server.start();

@@ -1,5 +1,5 @@
-import { Parser } from '../Parser';
-import { ErrorMessages } from '../enums/enums';
+import { Parser } from '../Parser.js';
+import { ErrorMessages } from '../enums/enums.js';
 
 describe('Insert Command Test Cases', () => {
   let parser: Parser;

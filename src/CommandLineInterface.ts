@@ -1,11 +1,11 @@
 import { Interface, createInterface } from 'readline';
-import {  ICommandExecutor } from './Executor';
+import {  ICommandExecutor } from './Executor.js';
 import {
   cliStartLogger,
   errorMessageLogger,
   exitCliLogger,
-} from './utils/Logger';
-import { Parser } from './Parser';
+} from './utils/Logger.js';
+import { Parser } from './Parser.js';
 
 export class CommandLineInterface {
   private executor: ICommandExecutor;

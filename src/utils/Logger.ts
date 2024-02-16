@@ -4,22 +4,22 @@ function getCurrentTimestamp(): string {
 }
 
 export function errorMessageLogger(message: string): void {
-  console.error(`\x1b[1m\x1b[31mError: ${message}\x1b[0m`);
+  console.error('\x1b[1m\x1b[31mError:\x1b[0m', message);
 }
 
 export function logWithTimestamp(message: string): void {
   const timestampStr = getCurrentTimestamp();
-  console.log(`[${timestampStr}] ${message}`);
+  console.log('\x1b[90m[' + timestampStr + ']\x1b[0m', message);
 }
 
 export function successMessageLogger(message: string): void {
-  console.log(`\x1b[1m\x1b[33m${message}\x1b[0m`);
+  console.log('\x1b[1m\x1b[32mSuccess:\x1b[0m', message);
 }
 
-export function cliStartLogger() {
-  console.log("\x1b[1m\x1b[32m\x1b[42mYou're in Rabi Cache Terminal\x1b[0m");
+export function cliStartLogger(): void {
+  console.log('\x1b[1m\x1b[32m\x1b[42mWelcome to Rabi Cache Terminal\x1b[0m');
 }
 
-export function exitCliLogger() {
+export function exitCliLogger(): void {
   console.log('\x1b[1m\x1b[33mExiting...\x1b[0m');
 }

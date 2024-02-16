@@ -1,6 +1,6 @@
-import { ErrorMessages } from '../enums/enums';
-import { ICache } from '../Cache';
-import { Cache } from '../Cache';
+import { ErrorMessages } from '../enums/enums.js';
+import { ICache } from '../Cache.js';
+import { Cache } from '../Cache.js';
 describe('Caching Data', () => {
   let cache: ICache;
 

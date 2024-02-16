@@ -1,5 +1,5 @@
-import { ICache } from './Cache';
-import { ErrorMessages, Operations } from './enums/enums';
+import { ICache } from './Cache.js';
+import { ErrorMessages, Operations } from './enums/enums.js';
 
 export interface ICommandExecutor {
   performOperation(
