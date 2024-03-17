@@ -157,7 +157,7 @@ export class Parser {
   private getCharFrequency(command: string, target: string): number {
     let count: number = 0;
 
-    for (let char of command) {
+    for (const char of command) {
       if (char === target) {
         count += 1;
       }
