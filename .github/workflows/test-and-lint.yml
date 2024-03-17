@@ -1,8 +1,16 @@
 name: Run Tests and Check Linting
-on: [push]
+
+on:
+    push:
+      branches:
+        - main
+
+    pull_request:
+      branches:
+        - main
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
