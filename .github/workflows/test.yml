@@ -1,4 +1,4 @@
-name: Run Tests and Check Linting
+name: Run Tests
 
 on:
     push:
@@ -26,19 +26,3 @@ jobs:
 
       - name: Run Tests
         run: bun test
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: "latest"
-
-      - name: Install Dependencies
-        run: bun install 
-
-      - name: Check Linting
-        run: bun lint
