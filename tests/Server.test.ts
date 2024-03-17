@@ -1,7 +1,7 @@
-import { CommandExecutor, ICommandExecutor } from '../Executor.js';
-import { IServerInterface, Server } from '../Server.js';
-import { ErrorMessages, Operations, SuccessMessages } from '../enums/enums.js';
-import { Cache } from '../Cache.js';
+import { CommandExecutor, ICommandExecutor } from '../src/Executor.js';
+import { IServerInterface, Server } from '../src/Server.js';
+import { ErrorMessages, Operations, SuccessMessages } from '../src/enums/enums.js';
+import { Cache } from '../src/Cache.js';
 import { Request, Response } from 'express';
 
 describe('Server Test Cases', () => {

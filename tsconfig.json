@@ -8,13 +8,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": true,
-  
     "allowSyntheticDefaultImports": true,
     "target": "ES2017",
     "outDir": "./dist",
-
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+    "moduleResolution": "Node",
+    "module": "ESNext",
   },
   "exclude": ["node_modules", "dist"]
 }

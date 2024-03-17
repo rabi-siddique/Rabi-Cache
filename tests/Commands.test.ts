@@ -1,5 +1,5 @@
-import { Parser } from '../Parser.js';
-import { ErrorMessages } from '../enums/enums.js';
+import { Parser } from '../src/Parser.js';
+import { ErrorMessages } from '../src/enums/enums.js';
 describe('Checking Commands', () => {
   let parser: Parser;
 
