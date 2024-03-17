@@ -1,17 +1,16 @@
-import express, { Express, NextFunction, Request, Response } from 'express';
+import express, { Express } from 'express';
 import { ICommandExecutor } from './Executor';
 import { ErrorMessages, Operations, SuccessMessages } from './enums/enums';
 import { handleErrorsForIncomingRequests } from './decorators/Decorators';
 import { Server as HttpServer } from 'http';
-import { workerData } from 'worker_threads';
 
 export interface IServerInterface {
   start(): Promise<void>;
   stop(): void;
-  GetCacheData(req: Request, res: Response): void;
-  DeleteCacheData(req: Request, res: Response): void;
-  AddCacheData(req: Request, res: Response): void;
-  UpdateCacheData(req: Request, res: Response): void;
+  GetCacheData(req: express.Request, res: express.Response): void;
+  DeleteCacheData(req: express.Request, res: express.Response): void;
+  AddCacheData(req: express.Request, res: express.Response): void;
+  UpdateCacheData(req: express.Request, res: express.Response): void;
 }
 export class Server implements IServerInterface {
   private app: Express;
@@ -49,7 +48,7 @@ export class Server implements IServerInterface {
     }
   }
 
-  private validateRequestData(req: Request, res: Response, next: NextFunction) {
+  private validateRequestData(req: express.Request, res: express.Response, next: express.NextFunction) {
     if ((req.method === 'POST' || req.method === 'PUT') && Object.keys(req.body).length === 0) {
       return res.status(400).send(ErrorMessages.BadRequestPostAndUpdate);
     }
@@ -69,27 +68,27 @@ export class Server implements IServerInterface {
   }
 
   @handleErrorsForIncomingRequests
-  public GetCacheData(req: Request, res: Response): void {
+  public GetCacheData(req: express.Request, res: express.Response): void {
     const { key } = req.params;
     const value = this.executor.performOperation(Operations.GET, key);
     res.status(200).send({ data: { key: value }, message: SuccessMessages.Get });
   }
 
   @handleErrorsForIncomingRequests
-  public DeleteCacheData(req: Request, res: Response): void {
+  public DeleteCacheData(req: express.Request, res: express.Response): void {
     const { key } = req.params;
     this.executor.performOperation(Operations.DELETE, key);
     res.status(200).send(SuccessMessages.Deletion);
   }
   @handleErrorsForIncomingRequests
-  public AddCacheData(req: Request, res: Response): void {
+  public AddCacheData(req: express.Request, res: express.Response): void {
     const { key, value } = this.getKeyAndValue(req.body);
     this.executor.performOperation(Operations.INSERT, key, value);
     res.status(200).send(SuccessMessages.Insertion);
   }
 
   @handleErrorsForIncomingRequests
-  public UpdateCacheData(req: Request, res: Response): void {
+  public UpdateCacheData(req: express.Request, res: express.Response): void {
     const { key, value } = this.getKeyAndValue(req.body);
     this.executor.performOperation(Operations.UPDATE, key, value);
     res.status(200).send(SuccessMessages.Update);
@@ -104,6 +103,3 @@ export class Server implements IServerInterface {
     return { key, value };
   }
 }
-
-const server = new Server(workerData.executor);
-server.start();
