@@ -1,4 +1,4 @@
-import { validateKey, logMessage } from './decorators/Decorators.js';
+import { validateKey, logMessage } from './decorators/Decorators';
 
 export interface ICache {
   insert(key: string, value: unknown): void;

@@ -1,6 +1,6 @@
-import { CommandExecutor } from './Executor.js';
-import { Cache } from './Cache.js';
-import { CommandLineInterface } from './CommandLineInterface.js';
+import { CommandExecutor } from './Executor';
+import { Cache } from './Cache';
+import { CommandLineInterface } from './CommandLineInterface';
 import { Worker } from 'worker_threads';
 
 const executor = new CommandExecutor(Cache.getInstance());

@@ -1,4 +1,4 @@
-import { ErrorMessages, Operations } from './enums/enums.js';
+import { ErrorMessages, Operations } from './enums/enums';
 
 export class Parser {
   public validateAndParseCommand(

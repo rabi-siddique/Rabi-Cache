@@ -1,7 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
-import { ICommandExecutor } from './Executor.js';
-import { ErrorMessages, Operations, SuccessMessages } from './enums/enums.js';
-import { handleErrorsForIncomingRequests } from './decorators/Decorators.js';
+import { ICommandExecutor } from './Executor';
+import { ErrorMessages, Operations, SuccessMessages } from './enums/enums';
+import { handleErrorsForIncomingRequests } from './decorators/Decorators';
 import { Server as HttpServer } from 'http';
 import { workerData } from 'worker_threads';
 

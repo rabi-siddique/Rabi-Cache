@@ -1,6 +1,6 @@
-import { RabiCache } from '../Cache.js';
-import { ErrorMessages, Operations, SuccessMessages } from '../enums/enums.js';
-import { logWithTimestamp, successMessageLogger } from '../utils/Logger.js';
+import { RabiCache } from '../Cache';
+import { ErrorMessages, Operations, SuccessMessages } from '../enums/enums';
+import { logWithTimestamp, successMessageLogger } from '../utils/Logger';
 import { Request, Response } from 'express';
 
 export function logMessage(
