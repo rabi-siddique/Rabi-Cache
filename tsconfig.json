@@ -12,7 +12,7 @@
     "target": "ES2017",
     "outDir": "./dist",
     "moduleResolution": "Node",
-    "module": "ESNext",
+    "module": "ESNext"
   },
   "exclude": ["node_modules", "dist"]
 }

@@ -2,11 +2,7 @@ import { ICache } from './Cache';
 import { ErrorMessages, Operations } from './enums/enums';
 
 export interface ICommandExecutor {
-  performOperation(
-    operation: string,
-    key: string,
-    value?: unknown
-  ): void | unknown;
+  performOperation(operation: string, key: string, value?: unknown): void | unknown;
 }
 
 export class CommandExecutor implements ICommandExecutor {
@@ -15,11 +11,7 @@ export class CommandExecutor implements ICommandExecutor {
     this.cache = cache;
   }
 
-  public performOperation(
-    operation: string,
-    key: string,
-    value?: string
-  ): void | unknown {
+  public performOperation(operation: string, key: string, value?: string): void | unknown {
     switch (operation) {
       case Operations.INSERT: {
         this.cache.insert(key, value);

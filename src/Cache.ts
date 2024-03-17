@@ -9,7 +9,7 @@ export interface ICache {
 }
 
 export interface RabiCache {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export class Cache implements ICache {

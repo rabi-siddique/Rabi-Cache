@@ -3,11 +3,7 @@ import { ErrorMessages, Operations, SuccessMessages } from '../enums/enums';
 import { logWithTimestamp, successMessageLogger } from '../utils/Logger';
 import { Request, Response } from 'express';
 
-export function logMessage(
-  target: unknown,
-  key: string,
-  descriptor: PropertyDescriptor
-) {
+export function logMessage(target: unknown, key: string, descriptor: PropertyDescriptor) {
   const originalMethod: Function = descriptor.value;
 
   descriptor.value = function (...args: unknown[]) {
@@ -39,11 +35,7 @@ export function logMessage(
 }
 
 export function validateKey(cache: RabiCache) {
-  return function (
-    target: unknown,
-    key: string,
-    descriptor: PropertyDescriptor
-  ) {
+  return function (target: unknown, key: string, descriptor: PropertyDescriptor) {
     const originalMethod: Function = descriptor.value;
 
     descriptor.value = function (...args: unknown[]) {
@@ -55,16 +47,14 @@ export function validateKey(cache: RabiCache) {
       }
 
       if (['get', 'delete', 'update'].includes(key)) {
-        if (!cache.hasOwnProperty(keyArgument)) {
+        if (!Object.prototype.hasOwnProperty.call(cache, keyArgument)) {
           throw new Error(ErrorMessages.KeyNotPresent);
         }
       }
 
       const result = originalMethod.apply(this, args);
 
-      logWithTimestamp(
-        `Method ${key} called with arguments: ${JSON.stringify(args)}`
-      );
+      logWithTimestamp(`Method ${key} called with arguments: ${JSON.stringify(args)}`);
 
       return result;
     };
@@ -73,11 +63,7 @@ export function validateKey(cache: RabiCache) {
   };
 }
 
-export function handleErrorsForIncomingRequests(
-  target: unknown,
-  key: string,
-  descriptor: PropertyDescriptor
-) {
+export function handleErrorsForIncomingRequests(target: unknown, key: string, descriptor: PropertyDescriptor) {
   const orginalFunction: Function = descriptor.value;
 
   descriptor.value = function (req: Request, res: Response) {
@@ -102,19 +88,12 @@ by Express. An alternative approach to incorporating parameter validation is to 
 directly where the route is defined. However, the decision was made to use decorators for consistency and 
 maintainability of the codebase. 
 */
-export function validateQueryParams(
-  target: unknown,
-  key: string,
-  descriptor: PropertyDescriptor
-) {
+export function validateQueryParams(target: unknown, key: string, descriptor: PropertyDescriptor) {
   const originalMethod: Function = descriptor.value;
 
   descriptor.value = function (req: Request, res: Response) {
     const { key } = req.params;
-    if (
-      (req.method === 'GET' || req.method === 'DELETE') &&
-      typeof key !== 'string'
-    ) {
+    if ((req.method === 'GET' || req.method === 'DELETE') && typeof key !== 'string') {
       return res.status(400).send(ErrorMessages.BadRequestGetAndDelete);
     }
 

@@ -68,9 +68,7 @@ describe('Caching Data', () => {
 
   // Behaviors of Get
   it('should throw an error when trying to retrieve a non-existent key', () => {
-    expect(() => cache.get('NonExistentKeyC')).toThrow(
-      ErrorMessages.KeyNotPresent
-    );
+    expect(() => cache.get('NonExistentKeyC')).toThrow(ErrorMessages.KeyNotPresent);
   });
   it('should throw an error when getting an empty key', () => {
     expect(() => {

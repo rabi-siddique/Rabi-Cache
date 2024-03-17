@@ -50,10 +50,7 @@ export class Server implements IServerInterface {
   }
 
   private validateRequestData(req: Request, res: Response, next: NextFunction) {
-    if (
-      (req.method === 'POST' || req.method === 'PUT') &&
-      Object.keys(req.body).length === 0
-    ) {
+    if ((req.method === 'POST' || req.method === 'PUT') && Object.keys(req.body).length === 0) {
       return res.status(400).send(ErrorMessages.BadRequestPostAndUpdate);
     }
 
@@ -75,9 +72,7 @@ export class Server implements IServerInterface {
   public GetCacheData(req: Request, res: Response): void {
     const { key } = req.params;
     const value = this.executor.performOperation(Operations.GET, key);
-    res
-      .status(200)
-      .send({ data: { key: value }, message: SuccessMessages.Get });
+    res.status(200).send({ data: { key: value }, message: SuccessMessages.Get });
   }
 
   @handleErrorsForIncomingRequests

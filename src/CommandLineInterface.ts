@@ -1,10 +1,6 @@
 import { Interface, createInterface } from 'readline';
-import {  ICommandExecutor } from './Executor';
-import {
-  cliStartLogger,
-  errorMessageLogger,
-  exitCliLogger,
-} from './utils/Logger';
+import { ICommandExecutor } from './Executor';
+import { cliStartLogger, errorMessageLogger, exitCliLogger } from './utils/Logger';
 import { Parser } from './Parser';
 
 export class CommandLineInterface {
@@ -31,8 +27,7 @@ export class CommandLineInterface {
           this.cli.close();
         } else {
           const parser = new Parser();
-          const [operation, key, value] =
-            parser.validateAndParseCommand(userInput);
+          const [operation, key, value] = parser.validateAndParseCommand(userInput);
           this.executor.performOperation(operation, key, value);
           this.getCommandLineInput();
         }

@@ -14,10 +14,7 @@ describe('Get Command Test Cases', () => {
 
   it("should handle keys with spaces without any errors with 'get' command", () => {
     const command = 'Rabi get "key with spaces"';
-    expect(parser.validateAndParseCommand(command)).toEqual([
-      'get',
-      'key with spaces',
-    ]);
+    expect(parser.validateAndParseCommand(command)).toEqual(['get', 'key with spaces']);
   });
 
   it("should validate a valid 'get' command with 'Rabi' prefix and supported operation", () => {
@@ -47,24 +44,12 @@ describe('Get Command Test Cases', () => {
     const commandD = 'Rabi get "     "';
     const commandE = 'Rabi get "     " ';
     const commandF = 'Rabi get   "     "        ';
-    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandD)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandE)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandF)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandD)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandE)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandF)).toThrow(ErrorMessages.InvalidCommand);
   });
 
   it("should throw error when there are spaces in key param of 'get' command using single quotes", () => {
@@ -74,38 +59,20 @@ describe('Get Command Test Cases', () => {
     const commandD = "Rabi get '     '";
     const commandE = "Rabi get '     ' ";
     const commandF = "Rabi get   '     '        ";
-    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandD)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandE)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandF)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandD)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandE)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandF)).toThrow(ErrorMessages.InvalidCommand);
   });
 
   it('should throw error when key is not provided', () => {
     const commandA = 'Rabi get';
     const commandB = 'Rabi get ';
     const commandC = 'Rabi get       ';
-    expect(() => parser.validateAndParseCommand(commandA)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandB)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
-    expect(() => parser.validateAndParseCommand(commandC)).toThrow(
-      ErrorMessages.InvalidCommand
-    );
+    expect(() => parser.validateAndParseCommand(commandA)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandB)).toThrow(ErrorMessages.InvalidCommand);
+    expect(() => parser.validateAndParseCommand(commandC)).toThrow(ErrorMessages.InvalidCommand);
   });
 });

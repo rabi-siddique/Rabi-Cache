@@ -1,9 +1,7 @@
 import { ErrorMessages, Operations } from './enums/enums';
 
 export class Parser {
-  public validateAndParseCommand(
-    command: string
-  ): [string, string] | [string, string, string] | never {
+  public validateAndParseCommand(command: string): [string, string] | [string, string, string] | never {
     command = command.trim();
 
     if (!command.startsWith('Rabi ')) {
@@ -18,15 +16,11 @@ export class Parser {
     switch (true) {
       case command.startsWith('insert'):
         operation = Operations.INSERT;
-        keyAndValues = this.checkAndExtractKeyAndValue(
-          command.substring(7).trim()
-        );
+        keyAndValues = this.checkAndExtractKeyAndValue(command.substring(7).trim());
         break;
       case command.startsWith('update '):
         operation = Operations.UPDATE;
-        keyAndValues = this.checkAndExtractKeyAndValue(
-          command.substring(7).trim()
-        );
+        keyAndValues = this.checkAndExtractKeyAndValue(command.substring(7).trim());
         break;
       case command.startsWith('delete '):
         operation = Operations.DELETE;
@@ -81,9 +75,7 @@ export class Parser {
     return [command];
   }
 
-  private checkAndExtractKeyAndValue(
-    command: string
-  ): [string, string] | never {
+  private checkAndExtractKeyAndValue(command: string): [string, string] | never {
     const firstChar = command[0];
     const lastChar = command.at(-1);
     const isDoubleQuotes = firstChar === '"' && lastChar === '"';
@@ -114,8 +106,7 @@ export class Parser {
     }
 
     const splittedCommand = command.split(' ').filter((part) => part !== '');
-    const isMissingKeyAndValueParams =
-      splittedCommand.length === 1 && splittedCommand[0] === '';
+    const isMissingKeyAndValueParams = splittedCommand.length === 1 && splittedCommand[0] === '';
     const hasMoreThanTwoParams = splittedCommand.length > 2;
     const hasTwoParams = splittedCommand.length === 2;
 
@@ -141,16 +132,9 @@ export class Parser {
     return -1;
   }
 
-  private getKeyAndValue(
-    splitIndex: number,
-    command: string
-  ): [string, string] {
-    const key = this.removeFirstAndLastChar(
-      command.substring(0, splitIndex).trim()
-    );
-    const value = this.removeFirstAndLastChar(
-      command.substring(splitIndex).trim()
-    );
+  private getKeyAndValue(splitIndex: number, command: string): [string, string] {
+    const key = this.removeFirstAndLastChar(command.substring(0, splitIndex).trim());
+    const value = this.removeFirstAndLastChar(command.substring(splitIndex).trim());
     return [key, value];
   }
 
